@@ -48,6 +48,74 @@ cargo install wakezilla
    ```bash
    wakezilla --version
    ```
+
+### Run with Docker
+
+Docker provides an easy way to run Wakezilla without installing Rust or other dependencies.
+
+1. **Build the Docker image**:
+   ```bash
+   git clone https://github.com/guibeira/wakezilla.git
+   cd wakezilla
+   docker build -t wakezilla .
+   ```
+
+2. **Run the proxy server**:
+   ```bash
+   docker run -d \
+     --name wakezilla-proxy \
+     --network host \
+     -v wakezilla-data:/opt/wakezilla \
+     wakezilla proxy-server
+   ```
+   
+   The `--network host` flag is required for Wake-on-LAN to work properly as it needs to send broadcast packets on the local network.
+
+3. **Run the client server**:
+   ```bash
+   docker run -d \
+     --name wakezilla-client \
+     -p 3001:3001 \
+     wakezilla client-server
+   ```
+
+4. **Using environment variables for configuration**:
+   ```bash
+   docker run -d \
+     --name wakezilla-proxy \
+     --network host \
+     -v wakezilla-data:/opt/wakezilla \
+     -e WAKEZILLA__SERVER__PROXY_PORT=3000 \
+     -e WAKEZILLA__WOL__DEFAULT_PORT=9 \
+     wakezilla proxy-server
+   ```
+
+5. **Using Docker Compose** (create a `docker-compose.yml`):
+   ```yaml
+   version: '3.8'
+   
+   services:
+     wakezilla-proxy:
+       image: wakezilla
+       build: .
+       container_name: wakezilla-proxy
+       network_mode: host
+       volumes:
+         - wakezilla-data:/opt/wakezilla
+       environment:
+         - WAKEZILLA__SERVER__PROXY_PORT=3000
+       command: proxy-server
+       restart: unless-stopped
+   
+   volumes:
+     wakezilla-data:
+   ```
+   
+   Then run with:
+   ```bash
+   docker-compose up -d
+   ```
+
 ### Run proxy server 
 
 1. **Run the Server**:
