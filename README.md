@@ -70,6 +70,8 @@ Docker provides an easy way to run Wakezilla without installing Rust or other de
    ```
    
    The `--network host` flag is required for Wake-on-LAN to work properly as it needs to send broadcast packets on the local network.
+   
+   Access the web interface at `http://localhost:3000` to manage your machines.
 
 3. **Run the client server** (on machines to be managed):
    ```bash
@@ -133,8 +135,13 @@ Docker provides an easy way to run Wakezilla without installing Rust or other de
    ```
    
    **Important**: 
-   - The **proxy server** (port 3000) has a web interface for managing machines
+   - The **proxy server** (port 3000) has a web interface at `http://localhost:3000` for managing machines
    - The **client server** (port 3001) is an API-only service with endpoints: `/health` (GET) and `/machines/turn-off` (POST)
+   
+   **Troubleshooting**: If the web interface shows a blank page or doesn't load:
+   - Check the container logs: `docker logs wakezilla-proxy`
+   - Verify the container is running: `docker ps | grep wakezilla`
+   - Ensure the build included frontend assets - the binary embeds them at compile time
 
 ### Run proxy server 
 
