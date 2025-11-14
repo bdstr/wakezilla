@@ -17,9 +17,11 @@ WORKDIR /build
 COPY . .
 
 # Install build dependencies and build using Makefile
-# Note: Skipping nightly toolchain installation as it's not needed for stable builds
+# Installing nightly toolchain as required by frontend/Trunk.toml
 # Using pre-built trunk binary to avoid compilation issues
-RUN rustup target add wasm32-unknown-unknown && \
+RUN rustup toolchain install nightly --allow-downgrade && \
+    rustup target add wasm32-unknown-unknown && \
+    rustup target add wasm32-unknown-unknown --toolchain nightly && \
     curl -sSL https://github.com/trunk-rs/trunk/releases/download/v0.20.3/trunk-x86_64-unknown-linux-gnu.tar.gz | tar xz -C /usr/local/bin/ && \
     make build
 
