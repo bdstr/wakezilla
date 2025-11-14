@@ -1,0 +1,39 @@
+# Git files
+.git
+.gitignore
+.github
+
+# Build artifacts
+target/
+frontend/dist/
+frontend/target/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+tests/
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+
+# Local development
+.env
+.env.local
+
+# Temporary files
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
