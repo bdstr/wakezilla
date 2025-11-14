@@ -106,6 +106,17 @@ Docker provides an easy way to run Wakezilla without installing Rust or other de
          - WAKEZILLA__SERVER__PROXY_PORT=3000
        command: proxy-server
        restart: unless-stopped
+     
+     wakezilla-client:
+       image: wakezilla
+       build: .
+       container_name: wakezilla-client
+       ports:
+         - "3001:3001"
+       environment:
+         - WAKEZILLA__SERVER__CLIENT_PORT=3001
+       command: client-server
+       restart: unless-stopped
    
    volumes:
      wakezilla-data:
