@@ -71,12 +71,17 @@ Docker provides an easy way to run Wakezilla without installing Rust or other de
    
    The `--network host` flag is required for Wake-on-LAN to work properly as it needs to send broadcast packets on the local network.
 
-3. **Run the client server**:
+3. **Run the client server** (on machines to be managed):
    ```bash
    docker run -d \
      --name wakezilla-client \
      -p 3001:3001 \
      wakezilla client-server
+   ```
+   
+   Note: The client server is an API service (not a web interface) that runs on machines you want to remotely shut down. Verify it's running:
+   ```bash
+   curl http://localhost:3001/health
    ```
 
 4. **Using environment variables for configuration**:
@@ -126,6 +131,10 @@ Docker provides an easy way to run Wakezilla without installing Rust or other de
    ```bash
    docker-compose up -d
    ```
+   
+   **Important**: 
+   - The **proxy server** (port 3000) has a web interface for managing machines
+   - The **client server** (port 3001) is an API-only service with endpoints: `/health` (GET) and `/machines/turn-off` (POST)
 
 ### Run proxy server 
 
