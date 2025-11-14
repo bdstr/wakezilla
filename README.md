@@ -28,7 +28,32 @@
 ```bash
 cargo install wakezilla
 ```
-    
+
+### Docker (recommended for containerized deployments)
+
+1. **Build the Docker image**:
+   ```bash
+   docker build -t wakezilla:latest .
+   ```
+
+2. **Run the proxy server**:
+   ```bash
+   docker run -d \
+     --name wakezilla-proxy \
+     --network host \
+     wakezilla:latest proxy-server
+   ```
+   
+   Note: `--network host` is required for Wake-on-LAN to work properly.
+
+3. **Run the client server**:
+   ```bash
+   docker run -d \
+     --name wakezilla-client \
+     -p 3001:3001 \
+     wakezilla:latest client-server
+   ```
+
 ### Install from source
 
 1. **Install Rust**:
